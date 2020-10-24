@@ -8,7 +8,6 @@ chardet==3.0.4
 click==7.1.2
 colorama==0.4.4
 cryptography==3.1.1
-distlib @ file:///C:/ci/distlib_1600697967208/work
 ecdsa==0.14.1
 fastapi==0.61.1
 filelock==3.0.12
@@ -38,6 +37,5 @@ starlette==0.13.6
 toml==0.10.1
 urllib3==1.25.10
 uvicorn==0.12.1
-virtualenv @ file:///C:/ci/virtualenv_1602783233850/work
 wincertstore==0.2
 wrapt==1.12.1
