@@ -15,7 +15,7 @@ class UserViews:
         response.badrequest()
         user = Users.addUser(user)
         if user is None:
-            response.message = "email is has been used"
+            response.message = "username is has been used"
             return response
         response.data = user
         response.created()

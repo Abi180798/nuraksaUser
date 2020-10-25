@@ -23,10 +23,25 @@ def login(
         res = res,
         login_data = login_data
     )
-@auth_router.get("/authorized", status_code = status.HTTP_201_CREATED)
+@auth_router.get("/authorized_super_admin", status_code = status.HTTP_201_CREATED)
 def getToken(
     res : Response,
     current_user : UserModel = Depends(auth_views.get_current_active_user),
+    ):
+    response = BaseResponse()
+    response.notfound()
+    res.status_code = response.status_code
+    if current_user is not None:
+        response.status_code = status.HTTP_200_OK
+        response.filed = False
+        response.message = "Token is authorized"
+        res.status_code = response.status_code
+    return response
+
+@auth_router.get("/authorized_admin", status_code = status.HTTP_201_CREATED)
+def getTokenAdmin(
+    res : Response,
+    current_user : UserModel = Depends(auth_views.get_current_active_admin),
     ):
     response = BaseResponse()
     response.notfound()

@@ -11,13 +11,13 @@ from datetime import datetime
 from app.schemas import BaseModel, BaseResponse, ListMeta, Field
 
 class UserModel(BaseModel):
-    id : Optional[int] = 0
-    name : str = Field(min_length=3)
-    email : str = Field(min_length=6) 
+    id_admin : Optional[int] = 0
+    nama_admin : str = Field(min_length=3)
+    username : str = Field(min_length=6) 
     password : str = Field(min_length=6)
-    bussines_name : Optional[str] = ""
-    bussines_type : Optional[str] = ""
-    role : Optional[str] = ""
+    alamat : Optional[str] = Field()
+    no_hp : Optional[str] = Field()
+    role : str = "admin"
     is_active : Optional[bool] = False
     is_super : Optional[bool] = False
     is_verified: Optional[bool] = False

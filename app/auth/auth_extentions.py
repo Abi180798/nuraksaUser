@@ -30,5 +30,5 @@ def get_current_user(token : str = Depends(oauth2_scheme)):
             token_data = TokenData(username=username)
         except Exception as e:
             raise credentials_exception
-        user = Users.exist(Users.email==token_data.username)
+        user = Users.exist(Users.username==token_data.username)
         return user

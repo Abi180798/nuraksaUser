@@ -25,9 +25,9 @@ class AuthViews:
     def post(self, login_data : OAuth2PasswordRequestForm):
         auth_response = AuthResponse()
         auth_response.notfound()
-        user : Users = Users.exist(Users.email==login_data.username)
+        user : Users = Users.exist(Users.username==login_data.username)
         if not user:
-            auth_response.message = "user wit username not found"
+            auth_response.message = "user with username not found"
             return auth_response
         if not user.verify_password(login_data.password):
             auth_response.message = "password incorrect"
@@ -40,17 +40,13 @@ class AuthViews:
     
     
     def get_current_active_user(self, current_user : UserModel = Depends(get_current_user)):
-        if current_user.is_active and current_user.is_super:
-            raise self.in_active_exception
-        else:
+        if current_user.role == EnumRole.SUPER_ADMIN: 
             return current_user
+        else:
+            raise self.unauthorize_excepion
     
     def get_current_active_admin(self, current_admin : UserModel = Depends(get_current_user)):
-        if current_admin.is_active and current_admin.role == EnumRole.ADMIN:
-            raise self.unauthorize_excepion
-        return current_admin
+        if current_admin.role == EnumRole.SUPER_ADMIN or current_admin.role == EnumRole.ADMIN:
+            return current_admin
+        raise self.unauthorize_excepion
     
-    def get_current_mercent_admin(self, current_mercent_admin : UserModel = Depends(get_current_user)):
-        if current_mercent_admin.is_active and current_mercent_admin.role == EnumRole.MERCENT_ADMIN or current_mercent_admin.role == EnumRole.ADMIN:
-            raise self.unauthorize_excepion
-        return current_mercent_admin

@@ -24,14 +24,14 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 class AuthToken(Base):
     __tablename__ = "auth_token"
-    id = sql.Column(sql.Integer, primary_key=True, index=True)
+    id_auth = sql.Column(sql.Integer, primary_key=True, index=True)
     token = sql.Column(sql.String)
-    user_id = sql.Column(sql.Integer, sql.ForeignKey(Users.id))
+    user_id = sql.Column(sql.Integer, sql.ForeignKey(Users.id_admin))
     expired_at = sql.Column(sql.DateTime)
     user = relationship('Users', back_populates="token")
 
     def __repr__(self):
-        return "<TOken :{}>".format(self.id)
+        return "<Token :{}>".format(self.id_auth)
     
     @staticmethod
     def create_token(data : dict):
@@ -43,10 +43,10 @@ class AuthToken(Base):
     
     @staticmethod
     def add_new_token(user : Users):
-        token, expired_at =AuthToken.create_token({"sub":user.email})
+        token, expired_at =AuthToken.create_token({"sub":user.username})
         auth_token = AuthToken(
                         token=token,
-                        user_id=user.id,
+                        user_id=user.id_admin,
                         expired_at=expired_at
                      )
         session.add(auth_token)

@@ -20,26 +20,20 @@ passwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class EnumRole:
-    SUPER_ADMIN = "ludes.superadmin"
-    ADMIN = "ludes.admin"
-    MERCENT_ADMIN = "ludes.mercent.admin"
-    MERCENT_CASHIER = "ludes.mercent.cashier"
-
-class EnumBussinesType:
-    CAFE = "cafe"
-    STORE = "store"
+    SUPER_ADMIN = "superadmin"
+    ADMIN = "admin"
 
 class Users(Base):
 
     __tablename__ = "users"
     
-    id = Column(Integer,primary_key=True, index=True)
-    name = Column(String, nullable=False, default="My Name")
-    email = Column(String, nullable=False, unique=True, index=True, default="test@mail.com")
+    id_admin = Column(Integer,primary_key=True, index=True)
+    nama_admin = Column(String, nullable=False, default="My Name")
+    username = Column(String, nullable=False, unique=True, index=True, default="")
     password = Column(String, nullable=False, default="password")
+    alamat = Column(String, default="")
+    no_hp = Column(String, default="")
     hashed_password = Column(String, nullable=False, default=passwd_context.hash("password"))
-    bussines_name = Column(String, nullable=False, default="My Bussiness")
-    bussines_type = Column(String, default=EnumBussinesType.CAFE)
     role = Column(String, nullable=False, default=EnumRole.ADMIN)
     is_active = Column(Boolean, default=False)
     is_super = Column(Boolean, default=False)
@@ -62,12 +56,13 @@ class Users(Base):
     @staticmethod
     def fromModel(user : UserModel):
         return Users(
-            name=user.name,
-            email=user.email,
+            nama_admin=user.nama_admin,
+            username=user.username,
             password=user.password,
             hashed_password=Users.get_hash_password(user.password),
-            bussines_name=user.bussines_name,
-            bussines_type=user.bussines_type,
+            alamat=user.alamat,
+            no_hp=user.no_hp,
+            role=user.role,
             created_at = datetime.now(),
             updated_at = datetime.now()
         )
@@ -75,7 +70,7 @@ class Users(Base):
     
     @staticmethod
     def addUser(user : UserModel):
-        user_exist = Users.exist(Users.email==user.email)
+        user_exist = Users.exist(Users.username==user.username)
         if user_exist is not None:
             return None
         user_created = Users.fromModel(user)
