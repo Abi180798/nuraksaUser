@@ -19,7 +19,7 @@ from app.Users.models import Users, EnumRole
 
 SECRET_KEY = "70b56bafa6dd5f14ad1e17d994c7fc9f3ca4d6bab2ccd3c444d4fa684709f1b2"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+ACCESS_TOKEN_EXPIRE_MINUTES = 3600
 
 
 class AuthToken(Base):
