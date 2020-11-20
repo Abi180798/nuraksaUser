@@ -81,3 +81,61 @@ class Users(Base):
     @staticmethod
     def getUsers(limit, page):
         return session.query(Users).limit(limit).offset(limit*page).all()
+
+     @staticmethod
+    def getUsersBy(*args, **kwargs):
+      return session.query(Users).filter(*args, **kwargs).first()
+
+    def setNamaAdmin(self,newName):
+      if newName is not None and newName:
+        self.nama_admin=newName
+
+    def setUsername(self,newUsername):
+      if newUsername is not None and newUsername:
+        self.username=newUsername
+
+    def setPassword(self,newPassword):
+      if newPassword is not None and newPassword:
+        self.password=newPassword
+
+    def setHashPassword(self,newHashPassword):
+      if newHashPassword is not None and newHashPassword:
+        self.password=Users.get_hash_password(newHashPassword)
+
+    def setALamat(self,newAlamat):
+      if newAlamat is not None and newAlamat:
+        self.alamat=newAlamat
+
+    def setNoHp(self,newNoHp):
+      if newNoHp is not None:
+        self.no_hp=newNoHp
+
+    def setRole(self,newRole):
+      if newRole is not None:
+        self.role=newRole
+
+    def setUpdatedAt(self):
+        self.role=datetime.now()
+
+    @staticmethod
+    def update(user :UserModel,id):
+      old_users : Users=Users.getUsersBy(Users.id_admin==id)
+      if old_users is not None:
+        old_users.setNamaAdmin(user.nama_admin)
+        old_users.setUsername(user.username)
+        old_users.setPassword(user.password)
+        old_users.setALamat(user.alamat)
+        old_users.setNoHp(user.no_hp)
+        old_users.setRole(user.role)
+        old_users.setUpdatedAt()
+        session.commit()
+      return old_users
+
+    @staticmethod
+    def delete(id):
+      user: Users = Users.getUsersBy(Users.id_admin==id)
+      if user is not None:
+        session.delete(user)
+        session.commit()
+        return True
+      return user

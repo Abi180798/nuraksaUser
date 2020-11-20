@@ -31,3 +31,30 @@ class UserViews:
         response.meta.next_page = page + 1
         response.meta.previous_page = page -1
         return response
+    
+    def getSingle(self, id):
+        response = UserResponse()
+        response.notfound()
+        user = Users.getUsersBy(Users.id_admin==id)
+        if user is not None:
+            response.data=user
+            response.success()
+            return response
+
+    def update(self, user: UserModel,id):
+        response = UserResponse()
+        response.notfound()
+        user = Users.update(user, id)
+        if user is not None:
+            response.data = user
+            response.success()
+            return response
+
+    def delete(self, id):
+        response = UserResponse()
+        response.notfound()
+        user = Users.delete(id)
+        if user == True:
+            response.success()
+            response.message="success delete data"
+            return response
