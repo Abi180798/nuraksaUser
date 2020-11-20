@@ -115,7 +115,7 @@ class Users(Base):
         self.role=newRole
 
     def setUpdatedAt(self):
-        self.role=datetime.now()
+        self.updated_at=datetime.now()
 
     @staticmethod
     def update(user :UserModel,id):
