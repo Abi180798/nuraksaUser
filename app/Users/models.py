@@ -82,7 +82,7 @@ class Users(Base):
     def getUsers(limit, page):
         return session.query(Users).limit(limit).offset(limit*page).all()
 
-     @staticmethod
+    @staticmethod
     def getUsersBy(*args, **kwargs):
       return session.query(Users).filter(*args, **kwargs).first()
 
