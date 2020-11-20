@@ -39,7 +39,7 @@ class UserViews:
         if user is not None:
             response.data=user
             response.success()
-            return response
+        return response
 
     def update(self, user: UserModel,id):
         response = UserResponse()
@@ -48,7 +48,7 @@ class UserViews:
         if user is not None:
             response.data = user
             response.success()
-            return response
+        return response
 
     def delete(self, id):
         response = UserResponse()
@@ -57,4 +57,4 @@ class UserViews:
         if user == True:
             response.success()
             response.message="success delete data"
-            return response
+        return response
